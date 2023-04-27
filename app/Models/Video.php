@@ -12,6 +12,19 @@ class Video extends Model
     protected $table = 'videos';
 
     //Relacion One To Many (1 a muchos), dentro de un video puede haber muchos comentarios.
+    /**
+     * @var mixed
+     */
+    private $description;
+    /**
+     * @var mixed
+     */
+    private $title;
+    /**
+     * @var mixed
+     */
+    private $user_id;
+
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');

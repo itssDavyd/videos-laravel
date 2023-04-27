@@ -31,3 +31,11 @@ Route::get('/', function () {
 
     return '<pre>' . print_r($videos, 1) . '</pre>';
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Routes del controller de videos (laravel 9 lo hace asi mas simple =)).
+Route::get('/crear-video', [\App\Http\Controllers\VideoController::class, 'createVideo'])->name('createVideo')->middleware('auth');
+Route::post('/guardar-video', [\App\Http\Controllers\VideoController::class, 'saveVideo'])->name('saveVideo')->middleware('auth');
