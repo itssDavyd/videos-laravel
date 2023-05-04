@@ -24,6 +24,14 @@ class Video extends Model
      * @var mixed
      */
     private $user_id;
+    /**
+     * @var mixed|string
+     */
+    private $image;
+    /**
+     * @var mixed|string
+     */
+    private $video_path;
 
     public function comments()
     {
