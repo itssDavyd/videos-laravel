@@ -10,23 +10,33 @@
                     </div>
                 @endif
 
-                <ul id="videos-list">
+                <div id="videos-list">
                     @foreach($videos as $video)
-                        <li class="video-item">
-                            @if(\Illuminate\Support\Facades\Storage::disk('images')->has($video->image))
-                                <div class="video-image-thumb">
-                                    <div class="col-md-6">
-                                        <img src="{{url('/miniatura/'.$video->image)}}" alt="miniatura">
-                                    </div>
+                        <div class="card mb-3">
+                            @if(!empty($video->image))
+                                <div class="video_image_mask">
+                                    <img class="video_image" src="{{url('/miniatura/'.$video->image)}}"
+                                         alt="miniatura">
                                 </div>
-
                             @endif
-                            <div class="data">
-                                <h3>{{$video->title}}</h3>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$video->title}}</h5>
+                                <p class="card-text">{{$video->description}}</p>
+                                <p class="card-text"><small
+                                        class="text-muted">{{$video->user->name.' '.$video->user->surname}}
+                                        - {{$video->created_at}}</small></p>
                             </div>
-                        </li>
+                            <div class="card-footer">
+                                <a href="{{route('detailVideo',['video_id'=>$video->id])}}"
+                                   class="btn btn-success m-lg-1">Ver</a>
+                                @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->id == $video->user->id)
+                                    <a href="" class="btn btn-warning  m-lg-1">Editar</a>
+                                    <a href="" class="btn btn-danger  m-lg-1">Eliminar</a>
+                                @endif
+                            </div>
+                        </div>
                     @endforeach
-                </ul>
+                </div>
             </div>
         </div>
         <div class="pagination">

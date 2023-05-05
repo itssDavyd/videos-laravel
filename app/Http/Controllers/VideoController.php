@@ -64,4 +64,14 @@ class VideoController extends Controller
         $file = Storage::disk('images')->get($filename);
         return \response($file, 200);
     }
+
+    public function getVideoPage($video_id)
+    {
+        //saca un unico registro del video id.
+        $video = Video::find($video_id);
+
+        return view('video.detail', ['video' => $video]);
+
+
+    }
 }

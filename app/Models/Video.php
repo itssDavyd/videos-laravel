@@ -33,6 +33,7 @@ class Video extends Model
      */
     private $video_path;
 
+
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');

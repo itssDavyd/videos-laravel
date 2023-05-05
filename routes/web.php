@@ -41,3 +41,5 @@ Route::get('/crear-video', [\App\Http\Controllers\VideoController::class, 'creat
 Route::post('/guardar-video', [\App\Http\Controllers\VideoController::class, 'saveVideo'])->name('saveVideo')->middleware('auth');
 
 Route::get('/miniatura/{filename}', [\App\Http\Controllers\VideoController::class, 'getImage'])->name('imageVideo');
+
+Route::get('/video/{video_id}', [\App\Http\Controllers\VideoController::class, 'getVideoPage'])->name('detailVideo');

@@ -1,3 +1,13 @@
 body {
-    background: red;
+
+}
+
+.video_image_mask {
+    width: 250px;
+    height: 180px;
+    overflow: hidden;
+}
+
+.video_image_mask .video_image {
+    width: 100%;
 }
