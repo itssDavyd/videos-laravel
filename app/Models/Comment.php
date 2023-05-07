@@ -12,8 +12,21 @@ class Comment extends Model
     protected $table = 'comments';
 
     //Relacion de Many to One (Muchos a 1).
+    /**
+     * @var mixed
+     */
+    private $user_id;
+    /**
+     * @var mixed
+     */
+    private $video_id;
+    /**
+     * @var mixed
+     */
+    private $body;
+
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

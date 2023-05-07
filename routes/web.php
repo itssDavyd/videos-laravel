@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Video;
 
 
-Route::get('/', function () {
+/*Route::get('/', function () {
 
     $videos = \App\Models\Video::all();
 
@@ -30,11 +30,11 @@ Route::get('/', function () {
     die();
 
     return '<pre>' . print_r($videos, 1) . '</pre>';
-});
+});*/
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Routes del controller de videos (laravel 9 lo hace asi mas simple =)).
 Route::get('/crear-video', [\App\Http\Controllers\VideoController::class, 'createVideo'])->name('createVideo')->middleware('auth');
@@ -43,3 +43,6 @@ Route::post('/guardar-video', [\App\Http\Controllers\VideoController::class, 'sa
 Route::get('/miniatura/{filename}', [\App\Http\Controllers\VideoController::class, 'getImage'])->name('imageVideo');
 
 Route::get('/video/{video_id}', [\App\Http\Controllers\VideoController::class, 'getVideoPage'])->name('detailVideo');
+Route::get('/video-file/{filename}', [\App\Http\Controllers\VideoController::class, 'getVideo'])->name('videoFile');
+
+Route::post('/comment', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment')->middleware('auth');

@@ -21,7 +21,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
+            <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Videos') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -87,6 +87,15 @@
     <main class="py-4">
         @yield('content')
     </main>
+
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright:
+            <a class="text-dark" href="https://github.com/itssDavyd">Github - itsDavyd</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
 </div>
 </body>
 </html>

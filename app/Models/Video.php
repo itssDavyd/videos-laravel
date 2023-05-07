@@ -36,13 +36,13 @@ class Video extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment');
+        return $this->hasMany('App\Models\Comment')->orderByDesc('id');
     }
 
     //Relacion de Many to One (Muchos a 1).
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
