@@ -28,6 +28,36 @@
                                 class="text-muted">{{$comment->user->name.' '.$comment->user->surname}}
                                 - {{$comment->created_at}}</small></p>
                     </div>
+
+                @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() == $comment->user_id || \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() == $video->user_id)
+                    <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal_{{$comment->id}}">
+                            Eliminar comentario
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal_{{$comment->id}}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Eliminar
+                                            comentario::{{$comment->user->name .' '.$comment->user->surname}}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Estas seguro de que quieres eliminar este comentario?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar
+                                        </button>
+                                        <a href="{{route('deleteComment',['id_comment'=>$comment->id])}}" type="button"
+                                           class="btn btn-danger">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <br>
