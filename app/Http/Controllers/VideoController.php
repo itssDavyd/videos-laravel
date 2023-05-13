@@ -80,4 +80,23 @@ class VideoController extends Controller
         $file = Storage::disk('videos')->get($filename);
         return \response($file, 200);
     }
+
+    public function delete($video_id)
+    {
+        $user = Auth::user();
+        $video = DB::table('videos')->find($video_id);
+
+        if ($user && $video->user_id == $user->getAuthIdentifier()) {
+
+            !is_null($video->image) && Storage::disk('images')->delete($video->image);
+            !is_null($video->video_path) && Storage::disk('videos')->delete($video->video_path);
+
+            DB::table('videos')->delete($video_id);
+            $message = 'Video borrado correctamente !!';
+
+        } else {
+            $message = 'El video no se ha podido eliminar correctamente !!';
+        }
+        return redirect()->route('home')->with(['message' => $message]);
+    }
 }

@@ -51,7 +51,8 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar
                                         </button>
-                                        <a href="{{route('deleteComment',['id_comment'=>$comment->id])}}" type="button"
+                                        <a href="{{route('deleteComment',['id_comment'=>$comment->id, 'id_video'=>$comment->video_id])}}"
+                                           type="button"
                                            class="btn btn-danger">Eliminar</a>
                                     </div>
                                 </div>

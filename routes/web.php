@@ -44,6 +44,7 @@ Route::get('/miniatura/{filename}', [\App\Http\Controllers\VideoController::clas
 
 Route::get('/video/{video_id}', [\App\Http\Controllers\VideoController::class, 'getVideoPage'])->name('detailVideo');
 Route::get('/video-file/{filename}', [\App\Http\Controllers\VideoController::class, 'getVideo'])->name('videoFile');
+Route::get('/video-del/{video_id}', [\App\Http\Controllers\VideoController::class, 'delete'])->name('deleteVideo');
 
 
 Route::post('/comment', [\App\Http\Controllers\CommentController::class, 'store'])->name('comment')->middleware('auth');

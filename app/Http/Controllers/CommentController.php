@@ -27,12 +27,17 @@ class CommentController extends Controller
         return redirect()->route('detailVideo', ['video_id' => $comment->video_id])->with(['msg' => 'Comentario añadido correctamente !!']);
     }
 
-    public function deleteComment($id)
+    public function deleteComment($id, Request $request)
     {
-        $comment = DB::table('comments')->delete($id);
-        $comment_id_video = DB::table('comments')->where('id', '=', $id);
+        $user = Auth::user();
+        $Comment = DB::table('comments');
+        $comment = $Comment->find($id);
 
-        return redirect()->route('detailVideo', ['video_id' => $comment_id_video->video_id])->with(['msg' => 'Comentario borrado correctamente !!']);
+        if ($user && ($comment->user_id == $user->getAuthIdentifier() || $comment->video->user_id == $user->getAuthIdentifier())) {
+            $Comment->delete($id);
+        }
+
+        return redirect()->route('detailVideo', ['video_id' => $comment->video_id])->with(['msg' => 'Comentario borrado correctamente !!']);
     }
 
 }

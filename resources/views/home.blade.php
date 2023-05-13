@@ -31,7 +31,35 @@
                                    class="btn btn-success m-lg-1">Ver</a>
                                 @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->id == $video->user->id)
                                     <a href="" class="btn btn-warning  m-lg-1">Editar</a>
-                                    <a href="" class="btn btn-danger  m-lg-1">Eliminar</a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal_{{$video->id}}">
+                                        Eliminar
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal_{{$video->id}}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar
+                                                        comentario::{{$video->user->name .' '.$video->user->surname}}</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ¿Estas seguro de que quieres eliminar este comentario?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cerrar
+                                                    </button>
+                                                    <a href="{{route('deleteVideo',['video_id'=>$video->id])}}"
+                                                       type="button"
+                                                       class="btn btn-danger">Eliminar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
