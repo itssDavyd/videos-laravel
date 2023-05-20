@@ -35,8 +35,9 @@
                 <ul class="navbar-nav me-auto">
 
                 </ul>
-                <form class="form" style="display: inherit;" action="" role="search">
-                    <input class="form-control" style="margin-right: 1rem;" type="search" placeholder="Search"
+                <form class="form" style="display: inherit;" action="{{url('/buscar')}}" role="search">
+                    <input class="form-control" style="margin-right: 1rem;" name="searchVideo" type="search"
+                           placeholder="Search"
                            aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>

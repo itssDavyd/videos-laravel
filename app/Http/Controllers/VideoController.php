@@ -99,4 +99,76 @@ class VideoController extends Controller
         }
         return redirect()->route('home')->with(['message' => $message]);
     }
+
+    public function edit($video_id)
+    {
+        $user = Auth::user();
+        $video = Video::findOrFail($video_id);
+        if ($user && $video->user_id == $user->getAuthIdentifier()) {
+            return view('video.edit', ['video' => $video]);
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    public function update($video_id, Request $request)
+    {
+
+        $validate = $this->validate($request, [
+            'title' => 'required|min:5',
+            'description' => 'required',
+            'video' => 'mimes:mp4',
+        ]);
+
+        $video = Video::findOrFail($video_id);
+        $user = Auth::user();
+
+        $video->user_id = $user->getAuthIdentifier();
+        $video->title = $request->input('title');
+        $video->description = $request->input('description');
+
+        $image = $request->file('image');
+        if ($image) {
+
+            //Comprueba si el video a tratar tiene imagen, si es asi, borra su imagen actual para insertar la nueva.
+            if ($video->image) {
+                Storage::disk('images')->delete($video->image);
+            }
+
+            $image_path = time() . '_' . $image->getClientOriginalName();
+            Storage::disk('images')->put($image_path, $image->getContent());
+            $video->image = $image_path;
+        }
+
+        $video_file = $request->file('video');
+        if ($video_file) {
+
+            //Comprueba si el video a tratar tiene video, si es asi, borra su video actual para insertar el nuevo.
+            if ($video->video_path) {
+                Storage::disk('videos')->delete($video->video_path);
+            }
+
+            $video_path = time() . '_' . $video_file->getClientOriginalName();
+            Storage::disk('videos')->put($video_path, $video_file->getContent());
+
+
+            $video->video_path = $video_path;
+        }
+
+        //Update en la BDD con la tabla VIDEO.
+        $video->update();
+
+        return redirect()->route('home')->with(['message' => 'El video se ha actualizado correctamente !!']);
+
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('searchVideo');
+        if (!empty($search)) {
+            //Para el buscador, funcionamiento, llega como search y le hacemos un like, principalmente se usa para el title pero podriamos implementarlo para cualquier campo de la table en BDD.
+            $result = Video::where('title', 'LIKE', '%' . $search . '%')->paginate(5);
+            return view('video.search', ['videos' => $result, 'search' => $search]);
+        }
+    }
 }
