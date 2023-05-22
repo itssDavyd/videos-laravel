@@ -77,6 +77,11 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
+
+                                <a class="dropdown-item"
+                                   href="{{route('channelUser',['user_id'=>\Illuminate\Support\Facades\Auth::user()->getAuthIdentifier()])}}">
+                                    Channel
+                                </a>
                             </div>
                         </li>
                     @endguest
@@ -84,11 +89,9 @@
             </div>
         </div>
     </nav>
-
     <main class="py-4">
         @yield('content')
     </main>
-
     <footer class="bg-light text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

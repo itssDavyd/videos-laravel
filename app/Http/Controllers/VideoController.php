@@ -16,6 +16,10 @@ use App\Models\Comment;
 
 class VideoController extends Controller
 {
+    const TIPO_FILTER_MAS_NUEVO = 'new';
+    const TIPO_FILTER_MAS_VIEJO = 'old';
+    const TIPO_FILTER_ALPHA = 'alpha';
+
     public function createVideo()
     {
         return view('video.createVideo');
@@ -165,10 +169,36 @@ class VideoController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('searchVideo');
+
+        //Para el buscador, funcionamiento, llega como search y le hacemos un like, principalmente se usa para el title pero podriamos implementarlo para cualquier campo de la table en BDD.
         if (!empty($search)) {
-            //Para el buscador, funcionamiento, llega como search y le hacemos un like, principalmente se usa para el title pero podriamos implementarlo para cualquier campo de la table en BDD.
             $result = Video::where('title', 'LIKE', '%' . $search . '%')->paginate(5);
             return view('video.search', ['videos' => $result, 'search' => $search]);
+        } else {
+            return redirect()->route('home')->with(['message' => 'Debe introducir algun dato para realizar una busqueda.']);
+        }
+    }
+
+    public function filter(Request $request, $buscadorActivo = null)
+    {
+        $filter = $request->input('filter');
+
+        if (!empty($filter) && $buscadorActivo != null) {
+            $result = null;
+            switch ($filter) {
+                case self::TIPO_FILTER_MAS_NUEVO:
+                    $result = Video::where('title', 'LIKE', '%' . $buscadorActivo . '%')->orderBy('id', 'desc')->paginate(5);
+                    break;
+                case self::TIPO_FILTER_MAS_VIEJO:
+                    $result = Video::where('title', 'LIKE', '%' . $buscadorActivo . '%')->orderBy('id', 'asc')->paginate(5);
+                    break;
+                case self::TIPO_FILTER_ALPHA:
+                    $result = Video::where('title', 'LIKE', '%' . $buscadorActivo . '%')->orderBy('title', 'asc')->paginate(5);
+                    break;
+            }
+            return view('video.search', ['videos' => $result, 'search' => $buscadorActivo, 'filter' => $filter]);
+        } else {
+            return redirect()->route('home')->with(['message' => 'Debe introducir algun filtro para realizar la busqueda.']);
         }
     }
 }
